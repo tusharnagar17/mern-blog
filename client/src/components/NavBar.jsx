@@ -1,19 +1,20 @@
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
+import { url } from "../utils/service";
 
 const NavBar = () => {
   const { userInfo, setUserInfo } = useContext(UserContext);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_SERVER_URL}/profile`, {
+    fetch(`${url}/profile`, {
       credentials: "include",
     }).then((response) => {
-      response.json().then((item) => {
-        setUserInfo(item);
+      response.json().then((info) => {
+        console.log("info from server", info);
       });
     });
-  });
+  }, []);
 
   function logout() {
     fetch(`${import.meta.env.VITE_SERVER_URL}/logout`, {
@@ -27,7 +28,9 @@ const NavBar = () => {
 
   return (
     <div className="max-w-5xl mx-auto  py-4 flex justify-between items-center">
-      <div className="text-2xl font-semibold">MyBlog</div>
+      <div className="text-2xl font-semibold">
+        <Link to={`/`}>MyBlog</Link>
+      </div>
       <div className="">
         {username ? (
           <div className="flex justify-between gap-6 items-center">

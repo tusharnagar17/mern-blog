@@ -6,6 +6,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import { UserProvider } from "./UserContext.jsx";
+import CreatePostPage from "./pages/CreatePostPage.jsx";
+import PostPage from "./pages/PostPage.jsx";
+import NavBar from "./components/NavBar.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +22,14 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage />,
+  },
+  {
+    path: "/create-post",
+    element: <CreatePostPage />,
+  },
+  {
+    path: "/post/:id",
+    element: <PostPage />,
   },
 ]);
 

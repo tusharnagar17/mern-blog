@@ -43,13 +43,10 @@ api.post("/login", async (req, res) => {
     const passOk = bcrypt.compareSync(password, user.password);
 
     if (passOk) {
-      jwt.sign({ username, id: user._id }, secret, {}, (err, token) => {
-        if (err) throw err;
-        res.cookie("token", token).json({
-          id: user._id,
-          username,
-        });
-      });
+      const token = jwt.sign({ username, id: user._id }, secret);
+      res.cookie("token", token);
+
+      res.status(200).json({ username, id: user._id });
     } else {
       return res.status(400).json({ message: "Failed to login" });
     }
@@ -65,13 +62,19 @@ api.post("/logout", (req, res) => {
 });
 
 // profile
-api.post("/profile", (req, res) => {
+api.get("/profile", (req, res) => {
   const { token } = req.cookies;
-
-  jwt.verify(token, secret, {}, (err, info) => {
-    if (err) throw err;
-    res.json(info);
-  });
+  console.log("Received token:", token); // Debugging line
+  if (token) {
+    try {
+      const result = jwt.verify(token, secret);
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(500).json({ message: "Invalid token" });
+    }
+  } else {
+    return res.status(401).json({ message: "No Token" });
+  }
 });
 
 module.exports = api;

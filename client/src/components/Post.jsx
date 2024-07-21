@@ -1,25 +1,38 @@
-import React from 'react'
+import { Navigate, useNavigate } from "react-router-dom";
+import { url } from "../utils/service";
+import { formatISO9075 } from "date-fns";
 
+const Post = ({ item }) => {
+  const { _id, title, summary, author, createdAt, cover, content } = item;
+  const ImageUrl =
+    "https://images.unsplash.com/photo-1523983388277-336a66bf9bcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
-
-const Post = () => {
-
-    const ImageUrl = "https://images.unsplash.com/photo-1523983388277-336a66bf9bcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
-    return (
-    <div className='flex justify-center items-center  gap-4  my-4'>
-        {/* Image */}
-        <div>
-            <img src={ImageUrl} alt="blog-image" className='w-[90%] rounded-md m-2 object-contain' />
+  const navigate = useNavigate();
+  console.log("item console", item);
+  return (
+    <div
+      className="flex items-center gap-6 my-10 cursor-pointer "
+      onClick={() => navigate(`/post/${_id}`)}
+    >
+      {/* Image */}
+      <div className="flex-1 w-[450px] h-[280px] overflow-hidden flex justify-center items-center m-2">
+        <img
+          src={`${url}/${cover}`}
+          alt="blog-image"
+          className="w-full h-full object-cover rounded-lg"
+        />
+      </div>
+      {/* Detail */}
+      <div className="flex-1 flex flex-col space-y-4">
+        <div className="text-xl font-semibold">{title}</div>
+        <div className="flex justify-start gap-10 items-center text-md font-bold space-x-4">
+          <div className="font-semibold">{author?.username}</div>
+          <div>{formatISO9075(new Date(createdAt))}</div>
         </div>
-        {/* Detail */}
-        <div>
-            <div className='text-2xl font-semibold'>Title</div>
-            <div className='my-2'><span className='text-lg font-semibold mr-4'>Author</span><span>Date</span></div>
-            <div>{"is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."}</div>
-        </div>
+        <div className="text-md">{summary}</div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Post
+export default Post;

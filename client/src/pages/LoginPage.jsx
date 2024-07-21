@@ -1,14 +1,13 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
-import { useNavigate } from "react-router-dom";
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 
 const LoginPage = () => {
   const [user, setUser] = useState({ username: "", password: "" });
   const { userInfo, setUserInfo } = useContext(UserContext);
-  const navigate = useNavigate();
+  const [redirect, setRedirect] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +21,7 @@ const LoginPage = () => {
       const res = await fetch(`${server_url}/login`, {
         method: "POST",
         body: JSON.stringify(user),
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -29,16 +29,20 @@ const LoginPage = () => {
       if (res.ok) {
         res.json().then((data) => {
           setUserInfo(data);
+          setRedirect(true);
         });
-        navigate("/");
+      } else {
+        alert("wrong credentails");
       }
-      console.log(res.json());
     } catch (error) {
       console.log(error);
     }
     console.log("handleSubmit", user);
     setUser({ username: "", password: "" });
   };
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
