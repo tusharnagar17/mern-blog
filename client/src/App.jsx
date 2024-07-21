@@ -1,10 +1,9 @@
-import React from 'react'
-import NavBar from './components/NavBar'
-import Post from './components/Post'
+import NavBar from "./components/NavBar";
+import Post from "./components/Post";
 
 const App = () => {
   return (
-    <section className='max-w-5xl mx-auto'>
+    <section className="max-w-5xl mx-auto">
       <NavBar />
       <Post />
       <Post />
@@ -12,9 +11,8 @@ const App = () => {
 
       <Post />
       <Post />
-
     </section>
-  )
-}
+  );
+};
 
-export default App
+export default App;

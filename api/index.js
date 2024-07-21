@@ -1,16 +1,28 @@
-const express = require('express')
-const app = express()
-const dotenv = require('dotenv')
-const bodyParser = require('body-parser')
+const express = require("express");
+const app = express();
+const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+const connectDB = require("./mongodb/connect");
+const authRoute = require("./route/authRoute");
+const cors = require("cors");
+dotenv.config();
 
-dotenv.config()
+const mongodb_uri = process.env.MONGO_URI;
+const port = process.env.PORT;
+const CLIENT_URI = process.env.CLIENT_URI;
 
-app.use(bodyParser.json())
+app.use(cors());
+app.use(bodyParser.json());
 
-app.get('/test', (req, res)=> {
-    res.status(200).json("Test endpoint working")
-})
+// connect to mongoDB
 
-app.listen(process.env.PORT, ()=> {
-    console.log("You app is listening to port: http://localhost:5000")
-})
+app.get("/test", (req, res) => {
+  res.status(200).json("Test endpoint working");
+});
+
+app.use("/", authRoute);
+
+connectDB(mongodb_uri);
+app.listen(port, () => {
+  console.log(`App is listening at port http://localhost:${port}`);
+});

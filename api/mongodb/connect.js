@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const connectDB = (url) => {
   mongoose.set("strictQuery", true);
 
   mongoose
-    .connect(url)
+    .connect(url, {})
     .then(() => {
       console.log("MongoDB connected");
     })
@@ -13,4 +13,4 @@ const connectDB = (url) => {
     });
 };
 
-module.exports = connectDB
+module.exports = connectDB;

@@ -1,29 +1,31 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import {createBrowserRouter, RouterProvider} from "react-router-dom"
-import LoginPage from "./pages/LoginPage.jsx"
-import RegisterPage from './pages/RegisterPage.jsx'
-import NavBar from './components/NavBar.jsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import { UserProvider } from "./UserContext.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />
-  }, 
+    element: <App />,
+  },
   {
     path: "/login",
-    element: <LoginPage />
-  }, {
+    element: <LoginPage />,
+  },
+  {
     path: "/register",
-    element: <RegisterPage />
-  }
-])
+    element: <RegisterPage />,
+  },
+]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  </React.StrictMode>
+);
